@@ -15,7 +15,6 @@ def show_post():
         st.write(post["text"])
         st.write("---")
 
-    st.session_state["page"] = "login"
 
 def show_login():
     st.title("Login no Blog")
@@ -39,7 +38,9 @@ def show_create_post():
     st.title("Criar novo post no Blog")
 
     title = st.text_input("Título do Post")
+    img = st.file_uploader("Imagem do Post")
     text = st.text_area("Conteúdo do Post")
+
 
     headers = {"Authorization": f"Token {st.session_state['token']}"}
 
@@ -49,7 +50,15 @@ def show_create_post():
                 f'{API_URL}posts/',
                 headers=headers,
                 data={"title": title, "text": text}
+                
             )
+            # Fazer upload da imagem
+            response = requests.post(
+                f'{API_URL}images/',
+                headers=headers,
+                data={"image": img}
+            )
+
             if response.status_code == 201:
                 st.success("Post criado com sucesso!")
             else:
