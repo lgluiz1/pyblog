@@ -10,7 +10,7 @@ class BlogViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]  # Apenas leitores podem ver, mas só o superusuário pode editar/criar
 
     def perform_create(self, serializer):
-        # Garante que apenas o superusuário pode criar posts
+        # Garantir que o 'user' seja atribuído automaticamente ao criar um novo post
         serializer.save(user=self.request.user)
 
 

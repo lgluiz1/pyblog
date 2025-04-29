@@ -147,3 +147,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_COOKIE_SECURE = False  # Só para testes locais!
+CSRF_COOKIE_HTTPONLY = False
+
+# Desabilitar CSRF para API
+CSRF_TRUSTED_ORIGINS = [
+    'https://736b-191-241-65-200.ngrok-free.app',  # URL completa com https://
+    'http://127.0.0.1:8000',  # URL local para desenvolvimento
+    'https://meusite.com',  # Outro exemplo de site confiável
+]
