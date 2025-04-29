@@ -4,6 +4,19 @@ import requests
 BASE_URL = "https://736b-191-241-65-200.ngrok-free.app"
 API_URL = f"{BASE_URL}/api/"
 
+def show_post():
+    st.title("Postagens do Blog")
+
+    response = requests.get(f"{API_URL}posts/")
+    posts = response.json()
+
+    for post in posts:
+        st.write(post["title"])
+        st.write(post["text"])
+        st.write("---")
+
+    st.session_state["page"] = "login"
+
 def show_login():
     st.title("Login no Blog")
 
@@ -18,7 +31,7 @@ def show_login():
             token = response.json().get("token")
             st.session_state["token"] = token
             st.session_state["page"] = "create_post"
-            st.experimental_rerun()
+            st.experimental_rerun( )
         else:
             st.error("Usuário ou senha inválidos.")
 
