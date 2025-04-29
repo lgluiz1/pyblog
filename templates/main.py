@@ -19,8 +19,6 @@ def show_post():
         st.error(f"Erro ao carregar posts: {response.status_code}")
 
 def show_login():
-    st.title("Login no Blog")
-
     username = st.text_input("Usuário")
     password = st.text_input("Senha", type="password")
 
@@ -59,7 +57,7 @@ def show_create_post():
 
                 # Enviar imagem (se houver)
                 if img:
-                    files = {'image': (img.name, img, img.type)}
+                    files = {'image': (img.name, img, img.type)}  # Corrigido para enviar como 'files'
                     image_response = requests.post(
                         f'{API_URL}images/',
                         headers=headers,
@@ -69,23 +67,38 @@ def show_create_post():
                     if image_response.status_code == 201:
                         st.success("Imagem enviada com sucesso!")
                     else:
-                        st.warning(f"Erro ao enviar imagem: {image_response.status_code}")
+                        st.error(f"Erro ao enviar imagem: {image_response.status_code} - {image_response.text}")
             else:
                 st.error(f"Erro ao criar post: {post_response.status_code}")
         else:
             st.warning("Preencha todos os campos.")
 
-# Inicialização de estado
-if "token" not in st.session_state:
-    st.session_state["token"] = None
-if "page" not in st.session_state:
-    st.session_state["page"] = "login"
+# Função para exibir categorias na barra lateral
+def show_categories():
+    categories = ["Categoria 1", "Categoria 2", "Categoria 3"]  # Exemplos de categorias
+    selected_category = st.sidebar.selectbox("Escolha uma categoria", categories)
+    st.sidebar.write(f"Você escolheu: {selected_category}")
 
-# Navegação condicional
-if st.session_state["token"]:
-    if st.session_state["page"] == "create_post":
-        show_create_post()
-    elif st.session_state["page"] == "view_posts":
-        show_post()
-else:
-    show_login()
+# Configuração da página e navegação
+def app():
+    st.set_page_config(layout="wide")  # Usando layout "wide" para mais espaço
+    show_categories()  # Exibe as categorias no menu lateral
+    
+    # Menu superior para login
+    if "token" not in st.session_state:
+        st.session_state["token"] = None
+    if "page" not in st.session_state:
+        st.session_state["page"] = "login"
+    
+    if st.session_state["token"]:
+        # Exibir postagens ou criar post
+        if st.session_state["page"] == "create_post":
+            show_create_post()
+        else:
+            show_post()  # Exibe postagens do blog
+    else:
+        show_login()  # Exibe o formulário de login no blog
+
+# Inicializa a aplicação
+if __name__ == "__main__":
+    app()
