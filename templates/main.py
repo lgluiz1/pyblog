@@ -7,14 +7,16 @@ API_URL = f"{BASE_URL}/api/"
 def show_post():
     st.title("Postagens do Blog")
 
+    # Recupera os posts
     response = requests.get(f"{API_URL}posts/")
-    posts = response.json()
-
-    for post in posts:
-        st.write(post["title"])
-        st.write(post["text"])
-        st.write("---")
-
+    if response.status_code == 200:
+        posts = response.json()
+        for post in posts:
+            st.write(post["title"])
+            st.write(post["text"])
+            st.write("---")
+    else:
+        st.error(f"Erro ao carregar posts: {response.status_code}")
 
 def show_login():
     st.title("Login no Blog")
@@ -30,50 +32,48 @@ def show_login():
             token = response.json().get("token")
             st.session_state["token"] = token
             st.session_state["page"] = "create_post"
-            st.experimental_rerun( )
+            st.experimental_rerun()  # Recarrega a página para navegar para a criação de post
         else:
             st.error("Usuário ou senha inválidos.")
 
 def show_create_post():
     st.title("Criar novo post no Blog")
 
-# Campos do formulário
-title = st.text_input("Título do Post")
-text = st.text_area("Conteúdo do Post")
-img = st.file_uploader("Imagem do post", type=["png", "jpg", "jpeg"])
+    title = st.text_input("Título do Post")
+    img = st.file_uploader("Imagem do Post", type=["png", "jpg", "jpeg"])
+    text = st.text_area("Conteúdo do Post")
 
-headers = {"Authorization": f"Token {st.session_state.get('token', '')}"}
+    headers = {"Authorization": f"Token {st.session_state['token']}"}
 
-if st.button("Publicar"):
-    if title and text:
-        
-        # Criação do post
-        post_response = requests.post(
-            f'{API_URL}posts/',
-            headers=headers,
-            data={"title": title, "text": text}
-        )
+    if st.button("Publicar"):
+        if title and text:
+            # Criação do post
+            post_response = requests.post(
+                f'{API_URL}posts/',
+                headers=headers,
+                data={"title": title, "text": text}
+            )
 
-        if post_response.status_code == 201:
-            st.success("Post criado com sucesso!")
+            if post_response.status_code == 201:
+                st.success("Post criado com sucesso!")
 
-            # Enviar imagem (se houver)
-            if img:
-                files = {'image': (img.name, img, img.type)}
-                image_response = requests.post(
-                    f'{API_URL}images/',
-                    headers=headers,
-                    files=files
-                )
+                # Enviar imagem (se houver)
+                if img:
+                    files = {'image': (img.name, img, img.type)}
+                    image_response = requests.post(
+                        f'{API_URL}images/',
+                        headers=headers,
+                        files=files
+                    )
 
-                if image_response.status_code == 201:
-                    st.success("Imagem enviada com sucesso!")
-                else:
-                    st.warning(f"Erro ao enviar imagem: {image_response.status_code}")
+                    if image_response.status_code == 201:
+                        st.success("Imagem enviada com sucesso!")
+                    else:
+                        st.warning(f"Erro ao enviar imagem: {image_response.status_code}")
+            else:
+                st.error(f"Erro ao criar post: {post_response.status_code}")
         else:
-            st.error(f"Erro ao criar post: {post_response.status_code}")
-    else:
-        st.warning("Preencha todos os campos.")
+            st.warning("Preencha todos os campos.")
 
 # Inicialização de estado
 if "token" not in st.session_state:
@@ -82,7 +82,10 @@ if "page" not in st.session_state:
     st.session_state["page"] = "login"
 
 # Navegação condicional
-if st.session_state["token"] and st.session_state["page"] == "create_post":
-    show_create_post()
+if st.session_state["token"]:
+    if st.session_state["page"] == "create_post":
+        show_create_post()
+    elif st.session_state["page"] == "view_posts":
+        show_post()
 else:
     show_login()
