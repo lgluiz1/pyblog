@@ -37,34 +37,43 @@ def show_login():
 def show_create_post():
     st.title("Criar novo post no Blog")
 
-    title = st.text_input("Título do Post")
-    img = st.file_uploader("Imagem do Post")
-    text = st.text_area("Conteúdo do Post")
+# Campos do formulário
+title = st.text_input("Título do Post")
+text = st.text_area("Conteúdo do Post")
+img = st.file_uploader("Imagem do post", type=["png", "jpg", "jpeg"])
 
+headers = {"Authorization": f"Token {st.session_state.get('token', '')}"}
 
-    headers = {"Authorization": f"Token {st.session_state['token']}"}
+if st.button("Publicar"):
+    if title and text:
+        
+        # Criação do post
+        post_response = requests.post(
+            f'{API_URL}posts/',
+            headers=headers,
+            data={"title": title, "text": text}
+        )
 
-    if st.button("Publicar"):
-        if title and text:
-            response = requests.post(
-                f'{API_URL}posts/',
-                headers=headers,
-                data={"title": title, "text": text}
-                
-            )
-            # Fazer upload da imagem
-            response = requests.post(
-                f'{API_URL}images/',
-                headers=headers,
-                data={"image": img}
-            )
+        if post_response.status_code == 201:
+            st.success("Post criado com sucesso!")
 
-            if response.status_code == 201:
-                st.success("Post criado com sucesso!")
-            else:
-                st.error(f"Erro ao criar post: {response.status_code}")
+            # Enviar imagem (se houver)
+            if img:
+                files = {'image': (img.name, img, img.type)}
+                image_response = requests.post(
+                    f'{API_URL}images/',
+                    headers=headers,
+                    files=files
+                )
+
+                if image_response.status_code == 201:
+                    st.success("Imagem enviada com sucesso!")
+                else:
+                    st.warning(f"Erro ao enviar imagem: {image_response.status_code}")
         else:
-            st.warning("Preencha todos os campos.")
+            st.error(f"Erro ao criar post: {post_response.status_code}")
+    else:
+        st.warning("Preencha todos os campos.")
 
 # Inicialização de estado
 if "token" not in st.session_state:
