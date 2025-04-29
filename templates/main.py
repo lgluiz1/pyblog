@@ -35,6 +35,9 @@ def show_login():
             st.error("Usuário ou senha inválidos.")
 
 def show_create_post():
+    post_id = 1  # Defina o ID do post corretamente
+    data = {'post': post_id}  # Agora a variável post_id está definida
+    
     st.title("Criar novo post no Blog")
 
     title = st.text_input("Título do Post")
