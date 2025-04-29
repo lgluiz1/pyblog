@@ -37,10 +37,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = '__all__'
+        fields = ['image', 'post']  # Adicione o campo 'post'
         read_only_fields = ['user']
 
     def create(self, validated_data):
         # Garantir que o 'user' será atribuído automaticamente ao adicionar uma nova imagem
         validated_data['user'] = self.context['request'].user
+        
+        # Garantir que o 'post' seja atribuído ao criar a imagem
+        validated_data['post'] = self.context['request'].data.get('post')
+        
         return super().create(validated_data)

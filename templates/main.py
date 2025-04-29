@@ -57,12 +57,14 @@ def show_create_post():
 
                 # Enviar imagem (se houver)
                 if img:
-                    # Assegure-se de que a imagem está sendo enviada corretamente
-                    files = {'image': (img.name, img, img.type)}  # Corrigido para enviar como 'files'
+                    files = {'image': (img.name, img, img.type)}
+                    data = {'post': post_id}  # Inclua o ID do post aqui
+                    
                     image_response = requests.post(
                         f'{API_URL}images/',
                         headers=headers,
-                        files=files
+                        files=files,
+                        data=data  # Inclua o ID do post aqui
                     )
 
                     if image_response.status_code == 201:

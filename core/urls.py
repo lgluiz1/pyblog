@@ -27,4 +27,7 @@ urlpatterns = [
     path('api/', include('blog.urls')),
     path('api-token-auth/', obtain_auth_token),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]# Adiciona URLs para arquivos de mídia
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
