@@ -37,8 +37,8 @@ class ReviewSerializer(serializers.ModelSerializer):
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Image
-        fields = ['image', 'post']  # Adicione o campo 'post'
-        read_only_fields = ['user']
+        fields = ['id', 'image', 'post']  # Inclua o campo 'post' aqui
+        read_only_fields = ['user'] #
 
     def create(self, validated_data):
         # Garantir que o 'user' será atribuído automaticamente ao adicionar uma nova imagem

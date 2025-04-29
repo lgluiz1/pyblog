@@ -1,11 +1,12 @@
-from rest_framework import viewsets
+from rest_framework import viewsets 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly , AllowAny
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied 
 from .models import Post, Comment, Reviews, Image
 from .serializers import BlogSerializer, CommentSerializer, ReviewSerializer, ImageSerializer
-from rest_framework.exceptions import NotFound
-from rest_framework.response import Response
-from rest_framework import status
+from .models import Post
+from rest_framework.exceptions import ValidationError
+
+
 
 class BlogViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
@@ -47,16 +48,12 @@ class ImageViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         if not self.request.user.is_superuser:
             raise PermissionDenied("Somente o superusuário pode adicionar imagens.")
-        
-        image = serializer.save(user=self.request.user)
+        serializer.save(user=self.request.user)
 
-        # Adicionar imagens ao post
-        post_id = self.request.data.get('post')
+        post_id = self.request.data.get('post')#
         if post_id:
             try:
                 post = Post.objects.get(id=post_id)
-                post.images.add(image)
+                post.images.add(serializer.instance)
             except Post.DoesNotExist:
-                raise NotFound("Post não encontrado.")
-        
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+                raise ValidationError("Post com o ID fornecido não encontrado.")
