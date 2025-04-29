@@ -11,8 +11,6 @@ class BlogViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         # Garante que apenas o superusuário pode criar posts
-        if not self.request.user.is_superuser:
-            raise PermissionDenied("Somente o superusuário pode criar posts.")
         serializer.save(user=self.request.user)
 
 
