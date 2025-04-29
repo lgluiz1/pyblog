@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://localhost:8000/api/"
+API_URL = "https://736b-191-241-65-200.ngrok-free.app/api/"
 TOKEN = "a45215a6fced4afd218e72bdae1b7a181342eb59"  # Ou carregue dinamicamente
 
 headers = {
@@ -23,3 +23,5 @@ if st.button("Publicar"):
             st.error(f"Erro ao criar post: {response.status_code}")
     else:
         st.warning("Preencha todos os campos.")
+
+
