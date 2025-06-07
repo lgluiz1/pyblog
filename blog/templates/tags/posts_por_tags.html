@@ -1,0 +1,11 @@
+<h1>Postagens da categoria: {{ tags.nome }}</h1>
+
+{% for post in posts %}
+  <div class="card">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content|truncatechars:100 }}</p>
+    <a href="#">Ler mais</a>
+  </div>
+{% empty %}
+  <p>Não há postagens nesta tag ainda.</p>
+{% endfor %}

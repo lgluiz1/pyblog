@@ -1,0 +1,36 @@
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/include/header.css' %}">
+    {% endblock %}
+
+    <nav class="navbar">
+        <div class="navbar-container">
+        <div class="logo"><i class="fa-brands fa-python"></i> 
+            <div class="title"><h1>Py</h1> <h2>Blog</h2></div>
+        </div>
+        <ul class="menu" >
+            <li><a class="nav-link" href="{% url 'index' %}">Aprenda Python</a></li>
+            <li><a class="nav-link" href="{% url 'index' %}">Referências</a></li>
+            <li>
+                <a class="nav-link" href="#">Mais <i class="fa-solid fa-caret-down"></i></a>
+                <ul class="dropdown-menu">
+                    {% for categoria in categorias_base %}
+                    <li><a class="nav-link" href="{% url 'posts_por_categoria' categoria.slug %}"><i class="{{ categoria.icons_class_fontawesome|safe }}"></i> {{ categoria.name }}</a></li>   
+                                 
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+        <div class="menu-mobile">
+            <i class="fa-solid fa-bars" id="menu-icon"></i>
+        </div>
+        <div class="menu-mobile-items">
+            <ul class="dropdown-menu-mobile">
+                <li><a class="nav-link" href="{% url 'index' %}">Tutoriais</a></li>
+                <li><a class="nav-link" href="{% url 'index' %}">Livros</a></li>
+                <li><a class="nav-link" href="{% url 'index' %}">Comunidade</a></li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+  

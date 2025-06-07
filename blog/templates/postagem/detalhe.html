@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/postagem/detalhe.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="detalhe-post-page">
+<!-- From Uiverse.io by rmdhnkhsn -->
+<div class="card-autor-post" >
+    <div class="containers">
+        <div class="icon-circle">          
+            <img src="{{ post.autor.github_avatar }}" alt="Avatar" style="border-radius: 50%; width: 90%;" />          
+        </div>
+        <div class="detalhe-autor-post" style="text-align: center; margin-top: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;" >
+        <div class="title-autor-post mb-3">{{ post.autor.github_name|title }}</div>
+        <div class="subtitle">
+            {{ post.autor.github_bio }}
+        </div>
+  <a href="{{ post.autor.github_url }}" target="_blank">Perfil no GitHub</a>
+  </div>
+    </div>
+</div>
+
+<div class="page-post-detalhe">
+    <div class="post-detalhe-page">
+<h1 style="text-align: center; font-size: clamp(1.5rem, 3vw, 2.5rem); ">{{ post.title|title }}</h1>
+<hr style="margin-top: 20px; margin-bottom: 20px; width: 100%;">
+<p>{{ post.content|safe }}</p>
+<hr style="margin-top: 20px; width: 100%;"> 
+
+
+<div class="comentarios-post-detalhes">
+{% if comments %}
+  <div class="Comentarios">
+    {% for comentario in comments %}
+      <div class="comentario">
+        <p><strong>{{ comentario.autor.username }}</strong>: {{ comentario.texto }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+<div class="card-autor-post" >
+    <div class="containers">
+        <div class="icon-circle">          
+            <img src="{{ post.autor.github_avatar }}" alt="Avatar" style="border-radius: 50%; width: 90%;" />          
+        </div>
+        <div class="detalhe-autor-post" style="text-align: center; margin-top: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;" >
+        <div class="title-autor-post mb-3">{{ post.autor.github_name|title }}</div>
+        <div class="subtitle">
+            {{ post.autor.github_bio }}
+        </div>
+  <a href="{{ post.autor.github_url }}" target="_blank">Perfil no GitHub</a>
+  </div>
+    </div>
+</div>
+  <p>Essa postagem não possui comentários</p>
+
+{% endif %}
+
+</div>
+
+
+</div>
+<div class="post-detalhe-menu-page">
+    <h1>aqui lista de tags post e categorias</h1>
+</div>
+</div>
+
+</div>
+{% endblock %}

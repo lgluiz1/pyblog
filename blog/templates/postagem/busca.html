@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h2>Resultados para "{{ query }}"</h2>
+
+{% if resultados %}
+    <ul>
+        {% for post in resultados %}
+            <li>
+                <a href="{% url 'posts_por_postagem' post.slug %}">{{ post.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum resultado encontrado.</p>
+{% endif %}
+
+{% endblock %}

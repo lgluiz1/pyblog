@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>Postagens da categoria: {{ categoria.nome }}</h1>
+
+{% for post in posts %}
+  <div class="card">
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.content|truncatechars:100 }}</p>
+    <a href="#">Ler mais</a>
+  </div>
+{% empty %}
+  <p>Não há postagens nesta categoria ainda.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/index/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/index/cardpost.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="header-conteiner">
+  <i class="fa-brands fa-python particle"></i>
+  <div class="title-header">
+    <h1><i class="fa-brands fa-python"></i> A Comunidade PyBlog <i
+        class="fa-solid fa-circle-info"></i></h1>
+    <p class="subtitle-header1">Somos todos Python entusiastas</p>
+    <p class="subtitle-header2">Se você hoje esta começando a comunidade te
+      atendera muito bem,<br>se você ja e um profissional entao pode ajudar a
+      comunidade</p>
+    <div class="header-button">
+      <a href="{% url 'index' %}"><i class="fa-solid fa-book"></i> Começe
+        aqui!</a>
+      <a href="{% url 'index' %}"><i class="fa-solid fa-code"></i> Solicitar
+        cadastro</a>
+    </div>
+  </div>
+</div>
+<section class="category-conteiner">
+  <div class="category">
+    <ul class="category-list">
+      <li class="category-item"><a href="{% url 'index' %}">Aprenda
+          Python</a></li>
+      <li class="category-item"><a href="{% url 'index' %}">Referências</a></li>
+      <li class="category-item"><a href="{% url 'index' %}">Tutoriais</a></li>
+      <li class="category-item"><a href="{% url 'index' %}">Livros</a></li>
+      <li class="category-item"><a href="{% url 'index' %}">Comunidade</a></li>
+    </ul>
+  </div>
+
+  <!-- POSTS (em um include para permitir AJAX parcial) -->
+  <div id="posts-wrapper">
+    {% include 'index/partials/posts_paginados.html' %}
+  </div>
+</section>
+{% block extra_js %}
+<script src="{% static 'js/animaçao.js' %}"></script>
+<script src="{% static 'js/index/index.js' %}"></script>
+
+{% endblock %}
+
+{% endblock %}
