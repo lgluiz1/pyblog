@@ -1,16 +1,40 @@
-
-.detalhe-post-page{
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+.detalhe-post-page {
+  
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  
 }
 
-/* From Uiverse.io by rmdhnkhsn */ 
+.post-relacionados {
+  width: 90%;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.post-relacionados-body {
+  
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  background: #fff;
+
+  padding: 22px 12px;
+}
+
+/* From Uiverse.io by rmdhnkhsn */
 .card-autor-post {
-    margin-top: 100px;
-    margin-bottom: 50px;
+  margin-top: 100px;
+  margin-bottom: 50px;
   position: relative;
   display: flex;
   width: 90%;
@@ -23,15 +47,17 @@
   transition: 1s all;
   text-decoration: none;
 }
+
 .title-autor-post {
   color: #072713;
-  text-align: center;
-  font-size: clamp(1.5rem, 3vw, 2.5rem); 
+  text-align: start;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-style: normal;
   font-weight: 600;
   line-height: 35.196px;
   transition: 0.4s all;
 }
+
 .subtitle {
   color: #7e8882;
   text-align: center;
@@ -41,6 +67,7 @@
   line-height: 22px;
   transition: 0.4s all;
 }
+
 .icon-circle {
   position: absolute;
   top: 0;
@@ -54,26 +81,28 @@
   border-radius: 50%;
   background: #F1F2F4;
 }
+
 .card-autor-post:hover {
   background: #FAB005;
   transition: 0.4s all;
 }
+
 .card-autor-post:hover .title-autor-post,
 .card-autor-post:hover .subtitle {
   color: #fff;
   transition: 0.4s all;
 }
 
-.page-post-detalhe{
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    gap: 20px;
+.page-post-detalhe {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 20px;
 }
 
-.post-detalhe-page{
+.post-detalhe-page {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -86,7 +115,7 @@
   justify-content: center;
 }
 
-.post-detalhe-menu-page{
+.post-detalhe-menu-page {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -96,7 +125,7 @@
   gap: 20px;
 }
 
-/* From Uiverse.io by zanina-yassine */ 
+/* From Uiverse.io by zanina-yassine */
 .card-comentarios-post-detalhes {
   width: 450px;
   height: fit-content;
@@ -339,4 +368,43 @@
     transform: scale(1);
     opacity: 0;
   }
+}
+.post-relacionados-list{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
+  margin-top: 30px;
+}
+.post-relacionados-title{
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: #47484b;
+}
+.post-relacionados-data{
+  text-align: start;
+  font-size: 12px;
+  color: #7e8882;
+}
+.post-relacionados-content{
+  text-align: start;
+  font-size: 14px;
+  color: #47484b;
+}
+.post-relacionados-autor{
+  text-align: start;
+  font-size: 12px;
+  color: #7e8882;
+}
+/* Responsivo */
+@media (max-width: 960px) {
+  .post-detalhe-menu-page {
+    display: none;
+  }
+   .post-detalhe-page{
+    max-width: 100%;
+   }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Success</title>
+</head>
+<body>
+<script>
+    if (window.opener) {
+        window.opener.postMessage("login_sucesso", window.location.origin);
+        window.close();
+    } else {
+        console.log("Janela principal não encontrada.");
+    }
+</script>
+<p>Login realizado com sucesso. Você pode fechar esta janela.</p>
+</body>
+</html>

@@ -1,10 +1,29 @@
 from django.shortcuts import get_object_or_404, render
 from .models import Post , Category , Comment, Image, Review, Tags
+from .utils import notificar_novo_post, notificar_comentario
 from django.db.models import Q
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.template.loader import render_to_string
 from allauth.socialaccount.models import SocialAccount
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+# Após salvar um novo post:
+#notificar_novo_post(post)
+
+# Após salvar um novo comentário:
+#notificar_comentario(comment)
+
+def login_success(request):
+    return render(request, 'auth/login_success.html')
+
+# logout
+@require_http_methods(["GET", "POST"])  # permite GET e POST
+def logout_view(request):
+    logout(request)
+    return redirect('/')  # ou para a página que quiser
 
 
 def posts_por_categoria(request, slug):
@@ -42,6 +61,21 @@ def detalhe_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post)
 
+    # Verifica se o usuário logado já comentou
+    usuario_ja_comentou = False
+    if request.user.is_authenticated:
+        usuario_ja_comentou = comments.filter(writer=request.user).exists()
+
+    # --- Relacionados por categoria ---
+    relacionados_categoria = Post.objects.filter(
+        category=post.category
+    ).exclude(id=post.id)[:4]
+
+    # --- Relacionados por tags ---
+    relacionados_tags = Post.objects.filter(
+        tags__in=post.tags.all()
+    ).exclude(id=post.id).distinct()[:4]
+
     post.autor = post.writer
 
     # Tenta pegar dados da conta GitHub (via django-allauth)
@@ -58,9 +92,14 @@ def detalhe_post(request, slug):
         post.autor.github_bio = None
         post.autor.github_name = post.writer.username
 
+   
+
     return render(request, 'postagem/detalhe.html', {
         'post': post,
         'comments': comments,
+        'relacionados_categoria': relacionados_categoria,
+        'relacionados_tags': relacionados_tags,
+        'usuario_ja_comentou': usuario_ja_comentou,
     })
 
 

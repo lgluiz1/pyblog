@@ -3,6 +3,7 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/postagem/detalhe.css' %}">
+<link rel="stylesheet" href="{% static 'css/postagem/comentarios.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -15,7 +16,7 @@
             <img src="{{ post.autor.github_avatar }}" alt="Avatar" style="border-radius: 50%; width: 90%;" />          
         </div>
         <div class="detalhe-autor-post" style="text-align: center; margin-top: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;" >
-        <div class="title-autor-post mb-3">{{ post.autor.github_name|title }}</div>
+        <div class="title-autor-post mb-3" >{{ post.autor.github_name|title }}</div>
         <div class="subtitle">
             {{ post.autor.github_bio }}
         </div>
@@ -26,48 +27,52 @@
 
 <div class="page-post-detalhe">
     <div class="post-detalhe-page">
-<h1 style="text-align: center; font-size: clamp(1.5rem, 3vw, 2.5rem); ">{{ post.title|title }}</h1>
+<div class="post-detalhe-header">
+<h1 style="text-align: start; font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 100; margin-top: 15px; ">{{ post.title|title }}</h1>
+<p style="text-align: start; width: 95%; font-size: 12px;" >Criado em: {{ post.created_at }}</p>
+</div>
 <hr style="margin-top: 20px; margin-bottom: 20px; width: 100%;">
 <p>{{ post.content|safe }}</p>
 <hr style="margin-top: 20px; width: 100%;"> 
 
 
-<div class="comentarios-post-detalhes">
-{% if comments %}
-  <div class="Comentarios">
-    {% for comentario in comments %}
-      <div class="comentario">
-        <p><strong>{{ comentario.autor.username }}</strong>: {{ comentario.texto }}</p>
-      </div>
-    {% endfor %}
-  </div>
-{% else %}
-<div class="card-autor-post" >
-    <div class="containers">
-        <div class="icon-circle">          
-            <img src="{{ post.autor.github_avatar }}" alt="Avatar" style="border-radius: 50%; width: 90%;" />          
-        </div>
-        <div class="detalhe-autor-post" style="text-align: center; margin-top: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;" >
-        <div class="title-autor-post mb-3">{{ post.autor.github_name|title }}</div>
-        <div class="subtitle">
-            {{ post.autor.github_bio }}
-        </div>
-  <a href="{{ post.autor.github_url }}" target="_blank">Perfil no GitHub</a>
-  </div>
-    </div>
-</div>
-  <p>Essa postagem não possui comentários</p>
-
-{% endif %}
-
-</div>
-
+{% include 'postagem/comentarios.html' %}
 
 </div>
 <div class="post-detalhe-menu-page">
     <h1>aqui lista de tags post e categorias</h1>
+
+
+<h2>Posts Relacionados por Tags</h2>
+<ul>
+  {% for p in relacionados_tags %}
+    <li><a href="">{{ p.title }}</a></li>
+  {% endfor %}
+</ul>
 </div>
 </div>
 
 </div>
+<div class="post-relacionados">
+<div class="post-relacionados-body">
+  <h1 style="font-size: clamp(1.3rem, 3vw, 2rem);">Postagens Relacionadas</h1>
+</div>
+{% for p in relacionados_categoria %}
+      
+<ul class="post-relacionados-list">
+  <li class="post-relacionados-img" ><img style="width: 300px; border-radius: 10px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8lRbS7eKYzDq-Ftxc1p8G_TTw2unWBMEYUw&s" alt=""></li>    
+  <li class="post-relacionados-title"><a style="color: #282829;" href="{% url 'posts_detalhe' p.slug %}">{{ p.title|truncatechars:25 }}</a></li>
+  <li class="post-relacionados-data">{{p.created_at}}</li>
+  <li class="post-relacionados-content" style="width: 280px;">{{ p.content|truncatechars:100|safe }}</li>
+  <li class="post-relacionados-autor"><p>Autor <a href="{% url 'posts_por_postagem' p.slug %}">{{ p.writer}}</a></p></li>
+  
+</ul>
+{% endfor %}
+</div>
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/postagem/comentarios.js' %}"></script>
+<script src="{% static 'js/postagem/loginsucesso.js' %}"></script>
+<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Category, Comment, Image, Review, Tags
+from .models import Post, Category, Comment, Image, Review, Tags, Notification
 
 class PostAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
@@ -11,4 +11,5 @@ admin.site.register(Comment)
 admin.site.register(Image)
 admin.site.register(Review)
 admin.site.register(Tags)
+admin.site.register(Notification)
 

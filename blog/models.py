@@ -42,7 +42,6 @@ class BaseModel(models.Model):
         abstract = True
 
 class Post(BaseModel):
-    writer = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', blank=True, null=True)
     title = models.CharField(max_length=100)
     content = RichTextUploadingField()
@@ -103,11 +102,17 @@ class Image(BaseModel):
 
 class Comment(BaseModel):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE, related_name='replies')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
 
     def __str__(self):
         return f'Comentário de {self.writer.username} em {self.post.title}'
+
+    def is_reply(self):
+        return self.parent is not None
+
 
 class Review(BaseModel):
     writer = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -116,5 +121,16 @@ class Review(BaseModel):
 
     def __str__(self):
         return f'{self.writer.username} avaliou {self.post.title} com {self.rating} estrelas'
+    
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')
+    message = models.CharField(max_length=255)
+    link = models.URLField(blank=True, null=True)  # Link para onde o usuário será redirecionado
+    is_read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Notificação para {self.recipient.username}: {self.message}'
     
 

@@ -74,7 +74,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/login/success/'
 
 
 MEDIA_URL = '/media/'

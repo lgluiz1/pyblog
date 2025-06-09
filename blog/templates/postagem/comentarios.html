@@ -1,0 +1,137 @@
+<div class="conteiner-comentario-post">
+    <p class="botao-comentario-exibir">
+        <i class="fa-solid fa-comments"></i> Exibir Todos os Comentarios ({{ comments.count }})
+        <i class="fa-solid fa-angle-up" style="display: none;"></i>
+        <i class="fa-solid fa-angle-down"></i>
+    </p>
+
+    <div class="comentario-post">
+        {% if comments %}
+            {% for comentario in comments %}
+                <div class="conteiner-comentario">
+                    <div class="comentario-body">
+                        <div class="comentario-header">
+                            <div class="comentario-header-img">
+                                <!-- IMAGEM DO USUARIO -->
+                                <img src="{{ post.autor.github_avatar }}" alt="1">
+                            </div>
+                        </div>
+                        <div class="conteudo-comentario">
+                            <div class="comentario-header-user">
+                                <!-- NOME DO USUARIO -->
+                                <a href="{{ post.autor.github_url }}" target="_blank" style="text-decoration: none;">
+                                    <strong>{{ comentario.writer.username }}</strong>
+                                </a>
+                                <!-- DATA DO COMENTARIO -->
+                                <p>{{ comentario.created_at }}</p>
+                            </div>
+
+                            <!-- TEXTO DO COMENTARIO -->
+                            <p>{{ comentario.content }}</p>
+
+                            <div class="comentario-footer">
+                                <a target="_blank" style="text-decoration: none; cursor: pointer;">
+                                    <i class="fa-solid fa-thumbs-up"></i> Curtir
+                                </a>
+                                <a class="botao-comentario-responder" target="_blank" style="text-decoration: none; cursor: pointer;">
+                                    <i class="fa-solid fa-share-from-square"></i> Responder
+                                </a>
+                                <a class="botao-comentario-denunciar" target="_blank" style="text-decoration: none; cursor: pointer;">
+                                    <i class="fa-solid fa-ban"></i> Denunciar
+                                </a>
+                            </div>
+
+                            <div class="comentarios-acoes" style="width: 100%;">
+                                <!-- inicio das acoes -->
+
+                                <div class="comentario-box-resposta" style="display: none; height: 130px;">
+                                    <!-- envia resposta -->
+                                    <textarea id="comentario-input" placeholder="Escreva um comentário..."></textarea>
+                                    <div class="comentario-acoes">
+                                        <button class="emoji-btn"><i class="fa-regular fa-face-smile"></i></button>
+                                        <button id="enviar-btn">Enviar</button>
+                                    </div>
+                                </div><!-- fim resposta -->
+
+                                <div class="comentario-denuncia" style="display: none; margin-top: 30px;">
+                                    <p>Denunciar este comentário</p>
+                                    <div class="body-denuncia">
+                                        <p>Por que você está denunciando este comentário?</p>
+
+                                        <div class="RadioButton-group">
+                                            <input class="RadioButton-input" type="radio" id="COMMENT_REPORTED_OFFENSIVE" name="" value="OFFENSIVE">
+                                            <label class="RadioButton" for="COMMENT_REPORTED_OFFENSIVE">Este comentário é ofensivo</label>
+                                        </div>
+                                        <div class="RadioButton-group">
+                                            <input class="RadioButton-input" type="radio" id="COMMENT_REPORTED_ABUSIVE" name="" value="ABUSIVE">
+                                            <label class="RadioButton" for="COMMENT_REPORTED_ABUSIVE">Este é um comportamento abusivo</label>
+                                        </div>
+                                        <div class="RadioButton-group">
+                                            <input class="RadioButton-input" type="radio" id="COMMENT_REPORTED_OUTROS" name="" value="OUTROS">
+                                            <label class="RadioButton" for="COMMENT_REPORTED_OUTROS">Outros</label>
+                                        </div>
+
+                                        <button class="botao-denuncia">Denunciar</button>
+                                    </div>
+                                </div>
+                            </div> <!-- final das acoes -->
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="sem-comentario" style="text-decoration: none;">
+                <i class="fa-solid fa-message"></i> Essa postagem ainda nao possui nenhum comentário
+            </p>
+        {% endif %}
+
+        <!-- Envio de novo comentário (sempre aparece) -->
+        <div class="comentario-enviar">
+            <!-- From Uiverse.io by Nawsome -->
+            <div class="typewriter" style="display: none;">
+                <div class="slide"><i></i></div>
+                <div class="paper"></div>
+                <div class="keyboard"></div>
+            </div>
+
+          {% if user.is_authenticated %}
+    {% if not usuario_ja_comentou %}
+        <a id="bottonAbrirComentario" class="botao-comentario-enviar" style="text-decoration: none;">
+            <i class="fa-solid fa-paper-plane"></i> Clique aqui para enviar seu comentário
+        </a>
+    {% else %}
+        <p>Você já comentou nesta postagem.</p>
+        <a href="{% url 'logout' %}">Sair</a>
+    {% endif %}
+{% else %}
+    <a id="botaoAbrirModalLogin" class="botao-comentario-enviar" style="text-decoration: none;">
+        <i class="fa-solid fa-paper-plane"></i> Faça login para comentar
+    </a>
+{% endif %}
+        </div>
+
+        <div id="escerverComentario" style="display: none;">
+    <div class="conteiner-comentario">
+        <div class="comentario-box">
+            <textarea id="comentario-input" placeholder="Escreva um comentário..."></textarea>
+            <div class="comentario-acoes">
+                <button class="emoji-btn"><i class="fa-regular fa-face-smile"></i></button>
+                <button id="enviar-btn">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+
+    <emoji-picker id="emoji-picker" style="position: absolute; display: none;"></emoji-picker>
+</div>
+
+<div id="modalLogin" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Login necessário</h2>
+        <p>Você precisa fazer login para comentar.</p>
+        <button id="loginGithubBtn">Entrar com GitHub</button>
+    </div>
+</div>

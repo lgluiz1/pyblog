@@ -9,6 +9,8 @@ urlpatterns = [
     path('tags/<slug:slug>/', views.posts_por_tags, name='posts_por_tags'),
     path('posts/<slug:slug>/', views.posts_por_postagem, name='posts_por_postagem'),
     path('post/<slug:slug>/', views.detalhe_post, name='posts_detalhe'),
+    path('login/success/', views.login_success, name='login_success'),
+    
 
     path('buscar/', views.buscar_posts, name='buscar_posts'),
 ]
