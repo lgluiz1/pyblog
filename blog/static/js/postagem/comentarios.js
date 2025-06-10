@@ -65,39 +65,48 @@ document.addEventListener('DOMContentLoaded', function () {
     const closeModal = document.querySelector('.close-modal');
     const githubBtn = document.getElementById('loginGithubBtn');
 
-    botaoAbrir.addEventListener('click', () => modal.style.display = 'block');
+    if (botaoAbrir && modal) {
+        botaoAbrir.addEventListener('click', () => modal.style.display = 'block');
+    }
 
-    closeModal.addEventListener('click', () => modal.style.display = 'none');
+    if (closeModal && modal) {
+        closeModal.addEventListener('click', () => modal.style.display = 'none');
+    }
 
     // Ouve mensagem do popup de login
-    window.addEventListener('message', function (event) {
-        if (event.origin !== window.location.origin) return;
+    if (modal) {
+        window.addEventListener('message', function (event) {
+            if (event.origin !== window.location.origin) return;
 
-        if (event.data === 'login_sucesso') {
-            modal.style.display = 'none';
-            location.reload(); // Ou atualize só parte da página
-        }
-    });
+            if (event.data === 'login_sucesso') {
+                modal.style.display = 'none';
+                location.reload(); // Ou atualize só parte da página
+            }
+        });
 
-    githubBtn.addEventListener('click', (event) => {
-        event.preventDefault();
+        // Fecha modal se clicar fora do conteúdo
+        window.addEventListener('click', (e) => {
+            if (e.target == modal) modal.style.display = 'none';
+        });
+    }
 
-        const width = 600, height = 600;
-        const left = (screen.width / 2) - (width / 2);
-        const top = (screen.height / 2) - (height / 2);
+    if (githubBtn) {
+        githubBtn.addEventListener('click', (event) => {
+            event.preventDefault();
 
-        window.open(
-            '/accounts/github/login/?process=login',
-            'Login GitHub',
-            `width=${width},height=${height},top=${top},left=${left}`
-        );
-    });
+            const width = 600, height = 600;
+            const left = (screen.width / 2) - (width / 2);
+            const top = (screen.height / 2) - (height / 2);
 
-    // Fecha modal se clicar fora do conteúdo
-    window.addEventListener('click', (e) => {
-        if (e.target == modal) modal.style.display = 'none';
-    });
+            window.open(
+                '/accounts/github/login/?process=login',
+                'Login GitHub',
+                `width=${width},height=${height},top=${top},left=${left}`
+            );
+        });
+    }
 });
+
 
 
 

@@ -1,3 +1,6 @@
+{% load socialaccount %}
+{% load i18n %}
+{% load allauth %}
 <div class="conteiner-comentario-post">
     <p class="botao-comentario-exibir">
         <i class="fa-solid fa-comments"></i> Exibir Todos os Comentarios ({{ comments.count }})
@@ -132,6 +135,13 @@
         <span class="close-modal">&times;</span>
         <h2>Login necessário</h2>
         <p>Você precisa fazer login para comentar.</p>
-        <button id="loginGithubBtn">Entrar com GitHub</button>
+        <a href="{% provider_login_url 'github' process='login' %}">
+  <button type="button">Entrar com GitHub</button>
+</a>
+
+
+       
+        
+
     </div>
 </div>

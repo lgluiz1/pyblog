@@ -9,12 +9,21 @@ from allauth.socialaccount.models import SocialAccount
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from allauth.socialaccount.providers.github.views import oauth2_login
+
+from django.contrib.auth.decorators import login_required
+
+from django.http import JsonResponse
+
 
 # Após salvar um novo post:
 #notificar_novo_post(post)
 
 # Após salvar um novo comentário:
 #notificar_comentario(comment)
+
+def github_login_redirect(request):
+    return oauth2_login(request)
 
 def login_success(request):
     return render(request, 'auth/login_success.html')
@@ -60,6 +69,14 @@ def buscar_posts(request):
 def detalhe_post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     comments = Comment.objects.filter(post=post)
+    # pega tags do post
+
+    tags = post.tags.all()  # pega tags do post
+    categorias =Category.objects.all()
+
+    # toda vez que leitor ler um post, subi a views do post
+    post.views += 1
+    post.save()
 
     # Verifica se o usuário logado já comentou
     usuario_ja_comentou = False
@@ -100,9 +117,24 @@ def detalhe_post(request, slug):
         'relacionados_categoria': relacionados_categoria,
         'relacionados_tags': relacionados_tags,
         'usuario_ja_comentou': usuario_ja_comentou,
+        'tags': tags,
+        'categorias': categorias
     })
 
 
+@login_required
+def like_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.likes += 1
+    post.save()
+    return JsonResponse({'likes': post.likes})
+
+@login_required
+def dislike_post(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    post.dislikes += 1
+    post.save()
+    return JsonResponse({'dislikes': post.dislikes})
 
 
 def index(request):

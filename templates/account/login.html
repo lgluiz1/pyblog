@@ -1,0 +1,12 @@
+{% load i18n %}
+{% load allauth account %}
+
+{% block content %}
+
+
+    {% if SOCIALACCOUNT_ENABLED %}
+        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+    {% else %}
+   
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,167 @@
+.container-categoria {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    margin: 50px 0 50px 0;
+}
+
+
+/* Agora definimos as característica do título */
+.sem-categoria {
+  padding-top:100px;
+  font-size: 35px;
+  color:#000000;
+}
+
+/* Agora definimos as característica do parágrafo. */
+.sem-categoria-p {
+  font-size: 13px;
+  color:#000000;
+  white-space: nowrap;
+  border-right: solid 3px #000000;
+  overflow: hidden; 
+}
+
+/* Animação, sua velocidade... */
+.sem-categoria-p {
+  animation: animated-text 4s steps(25) 1s 1 normal both, animated-cursor 600ms steps(25) infinite; 
+}
+
+/* Animação do Parágrafo */
+
+@keyframes animated-text{
+  from{width: 0;}
+  to{width: 340px;}
+}
+
+/* cursor animations */
+
+@keyframes animated-cursor{
+  from{border-right-color: #000000;}
+  to{border-right-color: transparent;}
+}
+/* From Uiverse.io by TheAbieza */ 
+.container-animation {
+  width: fit-content;
+  gap: 10px
+}
+
+.folder {
+  width: min-content;
+  margin: auto;
+  animation: float 2s infinite linear;
+}
+
+.folder .top {
+  background-color: #FF8F56;
+  width: 60px;
+  height: 12px;
+  border-top-right-radius: 10px;
+}
+
+.folder .bottom {
+  background-color: #FFCE63;
+  width: 100px;
+  height: 70px;
+  box-shadow: 5px 5px 0 0 #283149;
+  border-top-right-radius: 8px;
+}
+
+.container .title {
+  font-size: .9em;
+  color: #283149;
+  text-align: center;
+  margin-top: 15px;
+}
+
+@keyframes float {
+  0% {
+    transform: translatey(0px);
+  }
+
+  50% {
+    transform: translatey(-25px);
+  }
+
+  100% {
+    transform: translatey(0px);
+  }
+}
+.card-categoria{
+    width: 80%;
+    background-color: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin: 20px;
+    padding: 30px;
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 20px;
+    position: relative;
+}
+.card-image-post-categoria{
+    width: 200px;
+    height: 160px;
+    background: linear-gradient(135deg, #FAB005, #fac64d);
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    padding: 10px;
+}
+.card-content-categoria{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    gap: 10px;
+}
+.card-title-categoria{
+    font-size: 15px;
+    color: #000000;
+    overflow: hidden;
+}
+
+.card-footer-categoria{
+    width: 100%;
+    display: flex;
+    align-items: end;
+    justify-content: end;
+    gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .card-categoria {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card-content-categoria {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+  }
+.card-categoria{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.card-footer-categoria{
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+}
+  .card-image-post-categoria {
+    max-width: 200px;
+    min-height: 160px;
+  }
+}

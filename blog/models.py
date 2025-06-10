@@ -47,6 +47,7 @@ class Post(BaseModel):
     content = RichTextUploadingField()
     views = models.IntegerField(default=0)
     likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
     tags = models.ManyToManyField(Tags, blank=True, related_name='posts')
     slug = models.SlugField(unique=True, blank=True, null=True)
 

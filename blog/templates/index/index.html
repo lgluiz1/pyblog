@@ -41,8 +41,23 @@
     {% include 'index/partials/posts_paginados.html' %}
   </div>
 </section>
+
+<section style="display: flex ; justify-content: center ; align-items: center; flex-wrap: wrap; width: 100%;">
+  <div id="videos" style="width: 65%; display: flex ; justify-content: center ; align-items: center; flex-wrap: wrap; gap: 20px; margin: 50px 0px 50px 0px;"></div>
+<p>Deixamos bem claro que os conteudos do blog sao totalmente gratuitos e sem fins lucrativos entao os videos mostrado aqui e busca no youtube nao temos nenhum tipo de parceria com youyubers e strimers </p>
+</section>
+
+<div id="aviso-transparencia">
+   <p>
+Este site exibe vídeos públicos do YouTube com fins exclusivamente educativos e sem fins lucrativos.
+Não temos qualquer vínculo com os criadores dos vídeos. Ao continuar navegando, você concorda com essa política.
+</p>
+<button id="aceitar-aviso">Concordar</button>
+</div>
+
 {% block extra_js %}
 <script src="{% static 'js/animaçao.js' %}"></script>
+<script src="{% static 'js/index/videos.js' %}"></script>
 <script src="{% static 'js/index/index.js' %}"></script>
 
 {% endblock %}
